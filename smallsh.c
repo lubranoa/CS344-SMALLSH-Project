@@ -25,7 +25,7 @@ int main(){
      *  INPUT
      *
      * -----------------------------------------------------------------------------*/
-  input:;  
+  //input:;  
     // Check for any un-waited-for background processes in the same process group ID 
     // as smallsh
     
