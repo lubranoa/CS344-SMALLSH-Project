@@ -3,6 +3,7 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <string.h>
 #include <err.h>
 #include <errno.h>
 #include <sys/types.h>
@@ -10,13 +11,16 @@
 /* Macro for getting number of elements in an array */
 #define arrlen(a) (sizeof(a) / sizeof (*a))
 
+#define WORD_LIMIT 512
+#define EMPTY_STR ""
+#define NULL_FS1_STR " \t\n"
+
 int main(){
   
-  char *ps1_str = getenv("PS1");
-  char *empty_str = "";
   char *line = NULL;
   size_t n = 0;
   ssize_t line_length = 0;
+  char **words = NULL;
 
   // Command line executes in an infinite loop
   for (;;) {
@@ -38,8 +42,9 @@ int main(){
       // Any other child state changes are ignored
     
     // Print expanded PS1 parameter before each new command
+    char *ps1_str = getenv("PS1");
     if (ps1_str == NULL) {
-      if (fprintf(stderr, "%s", empty_str) < 0) goto exit;  // print empty string if PS1 was unset
+      if (fprintf(stderr, "%s", EMPTY_STR) < 0) goto exit;  // print empty string if PS1 was unset
     } else {
       if (fprintf(stderr, "%s", ps1_str) < 0) goto exit;
     }
@@ -59,10 +64,19 @@ int main(){
      *  WORD SPLITTING
      *
      * ----------------------------------------------------------------------------*/
-   
+    
+    char *fs1_str = getenv("FS1");
+    if ((words = malloc(sizeof *words * WORD_LIMIT)) == NULL) goto exit;
     // Split line of input into words delimited by the chars in the IFS 
     // environment variable or " \t\n" if IFS is unset (NULL)
-
+    if (fs1_str == NULL) {
+      char *token = strtok(line, NULL_FS1_STR);
+      while (token) {
+        puts(token);
+        
+      }
+    }
+      
   
       // A minimum of 512 words shall be supported
 
@@ -140,6 +154,8 @@ int main(){
     // exit with specified or implied value (see EXIT(3))
          
     // exit loop
+    free(words);
+    break;
 
     // EOF on stdin will be interpreted as an implied 'exit $?' command
   
