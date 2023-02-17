@@ -13,7 +13,8 @@
 
 #define WORD_LIMIT 512
 #define EMPTY_STR ""
-#define NULL_FS1_STR " \t\n"
+#define NULL_IFS_STR " \t\n"
+#define 
 
 int main(){
   
@@ -25,13 +26,18 @@ int main(){
   // Command line executes in an infinite loop
   for (;;) {
   
-    /* -------------------------------------------------------------------------------
-     *  INPUT
+    /*--------------------------------------------------------------------------------
+     * INPUT HANDLING:
      *
-     * -----------------------------------------------------------------------------*/
+     *   - Checks for un-waited-for background processes in smallsh's process group ID 
+     *     and prints information about them
+     *   - Prints command prompt and gets a line of input
+     *   - Ignores signal interrupts SIGINT (ctrl+c) and SIGTSTP (ctrl+z) at all times
+     *     and restarts the input process
+     *
+     *------------------------------------------------------------------------------*/
   //input:;  
-    // Check for any un-waited-for background processes in the same process group ID 
-    // as smallsh
+    // Check for any un-waited-for background processes
     
       // If stopped, smallsh sends SIGCONT signal and prints msg to stderr
 
@@ -41,13 +47,11 @@ int main(){
       
       // Any other child state changes are ignored
     
-    // Print expanded PS1 parameter before each new command
-    char *ps1_str = getenv("PS1");
-    if (ps1_str == NULL) {
-      if (fprintf(stderr, "%s", EMPTY_STR) < 0) goto exit;  // print empty string if PS1 was unset
-    } else {
-      if (fprintf(stderr, "%s", ps1_str) < 0) goto exit;
-    }
+    // Print expanded PS1 parameter before each new command, using an empty string if
+    // the PS1 environment variable is undefined
+    char *ps1_str;
+    if ((ps1_str = getenv("PS1")) == NULL) ps1_str = EMPTY_STR;
+    if (fprintf(stderr, "%s", ps1_str) < 0) goto exit;
       
     // After printing prompt line, get a line of input
     if ((line_length = getline(&line, &n, stdin)) == -1) goto exit;
@@ -60,30 +64,35 @@ int main(){
          
         // reading line of input should continue (see CLEARERR(3) and reset errno)
   
-    /* ------------------------------------------------------------------------------
-     *  WORD SPLITTING
+    /*--------------------------------------------------------------------------------
+     * WORD SPLITTING:
      *
-     * ----------------------------------------------------------------------------*/
+     *   - Splits line of input into separate words/args using the IFS environment
+     *     variable as delimiters for STRTOK(3)
+     *
+     *------------------------------------------------------------------------------*/
     
-    char *fs1_str = getenv("FS1");
+    // Allocates space in **words array for tokens from input
     if ((words = malloc(sizeof *words * WORD_LIMIT)) == NULL) goto exit;
-    // Split line of input into words delimited by the chars in the IFS 
-    // environment variable or " \t\n" if IFS is unset (NULL)
-    if (fs1_str == NULL) {
-      char *token = strtok(line, NULL_FS1_STR);
-      while (token) {
-        puts(token);
-        
-      }
+    
+    // Sets IFS string to " \t\n" if IFS environment variable is undefined
+    char *ifs_str;
+    if ((ifs_str = getenv("IFS")) == NULL) ifs_str = NULL_IFS_STR;
+    
+    // Tokenize line of input and put each word into an iterative spot in **words
+    size_t count = 0;
+    char *token = strtok(line, ifs_str);
+    while (token) {
+      ++count;
+      words[count - 1] = strdup(token);
+      // puts(words[count - 1]);
+      token = strtok(NULL, ifs_str);
     }
-      
-  
-      // A minimum of 512 words shall be supported
 
-    /* ------------------------------------------------------------------------------
+    /*--------------------------------------------------------------------------------
      * EXPANSION 
      *
-     * ----------------------------------------------------------------------------*/
+     *------------------------------------------------------------------------------*/
     
     // Parameter expansion of "$$", "$?", "$!", and "~". Expansion occurs in a 
     // forward direction in a single pass. Expanded text does not participate in 
@@ -106,10 +115,10 @@ int main(){
     // if an expanded environment variable is unset, interpret it as an empty
     // string (""). Includes PS1
   
-    /* ------------------------------------------------------------------------------
+    /* -------------------------------------------------------------------------------
      * PARSING 
      *
-     * ----------------------------------------------------------------------------*/
+     * -----------------------------------------------------------------------------*/
     
     // The words are parsed syntactically into tokens in the following order. Tokens
     // recognized in a previous step do not take part in further parsing. 3) and 4) 
@@ -128,10 +137,10 @@ int main(){
     // 4) If the last word is immediately preceded by the word ">", interpret as a 
     //    filename operand of the output redirection operator
     
-    /* ------------------------------------------------------------------------------
+    /* -------------------------------------------------------------------------------
      * EXECUTION
      *
-     * ----------------------------------------------------------------------------*/
+     * -----------------------------------------------------------------------------*/
     
     // If no command word present
       // Not an error
@@ -202,10 +211,10 @@ int main(){
       // When an error occurs in child, print informative error message to stderr and
       // exit with non-zero exit status
   
-    /* ------------------------------------------------------------------------------
+    /* -------------------------------------------------------------------------------
      * WAITING
      *
-     * ----------------------------------------------------------------------------*/
+     * -----------------------------------------------------------------------------*/
 
     // Built-in commands skip waiting step
      
