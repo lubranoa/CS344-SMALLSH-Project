@@ -3,10 +3,12 @@
 #include <stdlib.h>
 #include <stdio.h>
 #include <stdint.h>
+#include <stddef.h>
 #include <string.h>
 #include <err.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <unistd.h>
 
 /* Macro for getting number of elements in an array */
 #define arrlen(a) (sizeof(a) / sizeof (*a))
@@ -14,7 +16,14 @@
 #define WORD_LIMIT 512
 #define EMPTY_STR ""
 #define NULL_IFS_STR " \t\n"
-#define 
+#define HOME_STR "~/"
+#define SMSH_PID_STR "$$"
+#define EX_STAT_STR "$?"
+#define BKGR_PID_STR "$!"
+#define DEFAULT_EX_STAT "0"
+
+// A string search and replace function
+char *str_gsub(char *restrict *restrict haystack, char const *restrict needle, char const *restrict sub);
 
 int main(){
   
@@ -22,6 +31,7 @@ int main(){
   size_t n = 0;
   ssize_t line_length = 0;
   char **words = NULL;
+  size_t word_count = 0;
 
   // Command line executes in an infinite loop
   for (;;) {
@@ -80,11 +90,10 @@ int main(){
     if ((ifs_str = getenv("IFS")) == NULL) ifs_str = NULL_IFS_STR;
     
     // Tokenize line of input and put each word into an iterative spot in **words
-    size_t count = 0;
     char *token = strtok(line, ifs_str);
     while (token) {
-      ++count;
-      words[count - 1] = strdup(token);
+      ++word_count;
+      words[word_count - 1] = strdup(token);
       // puts(words[count - 1]);
       token = strtok(NULL, ifs_str);
     }
@@ -98,23 +107,36 @@ int main(){
     // forward direction in a single pass. Expanded text does not participate in 
     // token formation (expansion is not recursive). Each of the following is 
     // expanded within each word
+    for (int i = 0; i < word_count; ++i) {
+      // Replace ~ with HOME environment variable for any occurence of "~/" at the 
+      // beginning of a word
+      if (words[i][0] == HOME_STR[0] && words[i][1] == HOME_STR[1]) {
+        printf("Home string detected.....expanding to pwd\n");
+        char *home = getenv("HOME");
+        str_gsub(&words[i], "~", home);
+        printf("Expanded home string = %s\n", words[i]);
+      }
 
-    // Any occurence of "~/" at the beginning of a word is replaced with the value
-    // the HOME environment variable. The "/" is retained. (See GETENV(3))
+      // Replace every occurence of "$$" with smallsh process ID
+      int length = snprintf(0, 0, "%d", getpid());
+      char *pid_str = malloc(sizeof *pid_str * (length + 1));
+      if (sprintf(pid_str, "%d", getpid()) < 0) goto exit;
+      printf("Checking for '$$' to replace.....\n");
+      str_gsub(&words[i], SMSH_PID_STR, pid_str);
+      free(pid_str);
       
-    // Any occurence of "$$" within a word is replaced with the process ID of the 
-    // smallsh process (see GETPID(3))
+      // Any occurence of "$?" within a word is replaced with the exit status of 
+      // the last foreground command (see waiting). Defaults to "0"
       
-    // Any occurence of "$?" within a word is replaced with the exit status of 
-    // the last foreground command (see waiting). Defaults to "0"
-      
-    // Any occurence of "$!" within a word is replaced with the process ID of the
-    // most recent background process (see waiting) Defaults to "" if no background
-    // process ID is available
+      // Any occurence of "$!" within a word is replaced with the process ID of the
+      // most recent background process (see waiting) Defaults to "" if no background
+      // process ID is available
+
         
     // if an expanded environment variable is unset, interpret it as an empty
     // string (""). Includes PS1
-  
+      printf("current word after expansion: %s\n", words[i]);
+    }
     /* -------------------------------------------------------------------------------
      * PARSING 
      *
@@ -163,7 +185,9 @@ int main(){
     // exit with specified or implied value (see EXIT(3))
          
     // exit loop
+    for (size_t i = 0; i < word_count; ++i) free(words[i]);
     free(words);
+    free(line);
     break;
 
     // EOF on stdin will be interpreted as an implied 'exit $?' command
@@ -267,3 +291,35 @@ int main(){
   return errno ? -1 : 0;
 
 }
+
+char *str_gsub(char *restrict *restrict haystack, char const *restrict needle, char const *restrict sub) {
+  
+  char *str = *haystack;
+  size_t haystack_len = strlen(str);
+  size_t const needle_len = strlen(needle),
+               sub_len = strlen(sub);
+  
+  for (; (str = strstr(str, needle));) {
+    ptrdiff_t off = str - *haystack;
+    if (sub_len > needle_len) {
+      str = realloc(*haystack, sizeof **haystack * (haystack_len + sub_len - needle_len + 1));
+      if (!str) goto exit;
+      *haystack = str;
+      str = *haystack + off;
+    }
+
+    memmove(str + sub_len, str + needle_len, haystack_len + 1 - off - needle_len);
+    memcpy(str, sub, sub_len);
+    haystack_len = haystack_len + sub_len - needle_len;
+    str += sub_len;
+  }
+  
+  str = *haystack;
+  if (sub_len < needle_len) {
+    str = realloc(*haystack, sizeof **haystack + (haystack_len + 1));
+    if (!str) goto exit;
+    *haystack = str;
+  }
+exit:;
+  return str;
+ }
