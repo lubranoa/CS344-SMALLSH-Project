@@ -8,6 +8,7 @@
 #include <err.h>
 #include <errno.h>
 #include <sys/types.h>
+#include <sys/wait.h>
 #include <unistd.h>
 
 /* Macro for getting number of elements in an array */
@@ -29,9 +30,6 @@ int main(){
   
   char *line = NULL;
   size_t n = 0;
-  ssize_t line_length = 0;
-  char **words = NULL;
-  size_t word_count = 0;
 
   // Command line executes in an infinite loop
   for (;;) {
@@ -46,7 +44,10 @@ int main(){
      *     and restarts the input process
      *
      *------------------------------------------------------------------------------*/
-  //input:;  
+
+    ssize_t line_length = 0;
+    char **words = NULL;
+    size_t word_count = 0;
     // Check for any un-waited-for background processes
     
       // If stopped, smallsh sends SIGCONT signal and prints msg to stderr
@@ -97,46 +98,51 @@ int main(){
       // puts(words[count - 1]);
       token = strtok(NULL, ifs_str);
     }
+    words[word_count] = NULL;
 
     /*--------------------------------------------------------------------------------
-     * EXPANSION 
+     * EXPANSION OF PARAMETERS: 
+     *
+     *   - Parameter expansion of "~/" at the beginning of a word to the current 
+     *     working directory, any occurence of "$$" to smallsh's process ID, any 
+     *     ocurrence of "$?" to exit status of last foreground command, and any 
+     *     occurence of "$!" to the most recent background process's process ID
+     *   - Expansion occurs in a single iterative pass through the array of words 
      *
      *------------------------------------------------------------------------------*/
     
-    // Parameter expansion of "$$", "$?", "$!", and "~". Expansion occurs in a 
-    // forward direction in a single pass. Expanded text does not participate in 
-    // token formation (expansion is not recursive). Each of the following is 
-    // expanded within each word
     for (int i = 0; i < word_count; ++i) {
+      
       // Replace ~ with HOME environment variable for any occurence of "~/" at the 
       // beginning of a word
       if (words[i][0] == HOME_STR[0] && words[i][1] == HOME_STR[1]) {
-        printf("Home string detected.....expanding to pwd\n");
+        // printf("Home string detected.....expanding to pwd\n");
         char *home = getenv("HOME");
         str_gsub(&words[i], "~", home);
-        printf("Expanded home string = %s\n", words[i]);
+        // printf("Expanded home string = %s\n", words[i]);
       }
 
       // Replace every occurence of "$$" with smallsh process ID
-      int length = snprintf(0, 0, "%d", getpid());
+      int length;
+      if ((length = snprintf(0, 0, "%d", getpid())) < 0) goto exit;
       char *pid_str = malloc(sizeof *pid_str * (length + 1));
       if (sprintf(pid_str, "%d", getpid()) < 0) goto exit;
-      printf("Checking for '$$' to replace.....\n");
+      // printf("Checking for '$$' to replace.....\n");
       str_gsub(&words[i], SMSH_PID_STR, pid_str);
       free(pid_str);
       
       // Any occurence of "$?" within a word is replaced with the exit status of 
       // the last foreground command (see waiting). Defaults to "0"
+      str_gsub(&words[i], EX_STAT_STR, DEFAULT_EX_STAT);
       
       // Any occurence of "$!" within a word is replaced with the process ID of the
       // most recent background process (see waiting) Defaults to "" if no background
       // process ID is available
-
+      str_gsub(&words[i], BKGR_PID_STR, EMPTY_STR);
         
-    // if an expanded environment variable is unset, interpret it as an empty
-    // string (""). Includes PS1
-      printf("current word after expansion: %s\n", words[i]);
+      // printf("current word after expansion: %s\n", words[i]);
     }
+
     /* -------------------------------------------------------------------------------
      * PARSING 
      *
@@ -155,7 +161,7 @@ int main(){
   
     // 3) If the last word is immediately preceded by the word "<", interpret as a
     //    filename operand of the input redirection operator
- 
+
     // 4) If the last word is immediately preceded by the word ">", interpret as a 
     //    filename operand of the output redirection operator
     
@@ -164,77 +170,107 @@ int main(){
      *
      * -----------------------------------------------------------------------------*/
     
-    // If no command word present
-      // Not an error
-      // Do not modify "$?"
-      // Return silently to Input
+    // If no command word present, not an error, so return silently to Input
+    if (words[0] == NULL) continue;
 
     // If command to be executed is 'exit', takes one argument
-  exit:;
-    // If no argument provided, arg implied to expanded "$?"
-    
-    // If more than one arg or arg is not an int, throw error
-      
-    // print "\nexit\n" to stderr
+    if ((strncmp(words[0], "exit", 4)) == 0) {
+      // If no argument provided, arg implied to expanded "$?"
+      int arg = atoi(DEFAULT_EX_STAT);
+      // If more than one arg, throw error
+      if (words[2] != NULL) {
+        fprintf(stderr, "exit: ERROR - too many arguments\n");
+        errno = 1;
+        goto exit;
+      }
+      // If any chars in the argument are not digits, throw error
+      for (int i = 0; i < strlen(words[1]); ++i) {
+        if (words[1][i] < 48 || words[1][i] > 57) {
+          fprintf(stderr, "exit: ERROR - argument not integer\n");
+          errno = 1;
+          goto exit;
+        }
+      }
+      if (words[1] != NULL) arg = atoi(words[1]);
+
+      // print "\nexit\n" to stderr
+      fprintf(stderr, "\nexit\n");
        
-    // send SIGINT signal to all child processes in the same process group (see
-    // KILL(2))
-        
-    // smallsh does need to wait for child processes, exit immediately
-         
-    // exit with specified or implied value (see EXIT(3))
-         
-    // exit loop
-    for (size_t i = 0; i < word_count; ++i) free(words[i]);
-    free(words);
-    free(line);
-    break;
-
-    // EOF on stdin will be interpreted as an implied 'exit $?' command
-  
-    // If command to be executed is 'cd', takes one argument
-    
-    // If not provided, arg is implied to be the expansion of "~/", the value of 
-    // the HOME environment variable
-    
-    // If more than one arg, throw error
-   
-    // smallsh can change its own current working directory to the specified or
-    // implied path (see CHDIR(2))
-  
-    // If operation fails, throw error
-  
-    // Otherwise, execute non-built-in commands using appropriate 'EXEC(3)' function
-    
-    // The command and arguments are executed in a new child process
-   
-    // If command name does not include "/", search for command in system's PATH
-    // environment variable (see EXECVP(3))
-  
-    // Call FORK(2), and throw error on failure
- 
-    // Implement redirection operators '<' and '>'
-  
-    // In the child, reset signals to original states when smallsh was invoked.
-    // Note: Not the same as SIG_DFL. See oldact in SIGACTION(2)
-
-    // If a filename was specified as the operand to the input redirection operator
-    // ("<"), open file for reading on stdin, and throw error on failure
-
-    // If a filename was specified as the operand to the output redirection 
-    // operator, open file for writing on stdout. 
-
-      // If file does not exist, create with permissions 0777
-
-      // Throw error if file cannot be opened or created for writing
-  
-    // Implement the '&' operator to run commands in the background
+      // send SIGINT signal to all child processes in the same process group (see
+      // KILL(2))
+          
+      // Does not wait for child processes, exit immediately 
+      for (size_t i = 0; i < word_count; ++i) free(words[i]);
+      free(words);
       
-    // If child process fails to exec, throw error
-    
-      // When an error occurs in child, print informative error message to stderr and
-      // exit with non-zero exit status
+      errno = arg;
+      goto exit;
+    } else {
+      // EOF on stdin will be interpreted as an implied 'exit $?' command
   
+      // If command to be executed is 'cd', takes one argument
+    
+      // If not provided, arg is implied to be the expansion of "~/", the value of 
+      // the HOME environment variable
+    
+      // If more than one arg, throw error
+   
+      // smallsh can change its own current working directory to the specified or
+      // implied path (see CHDIR(2))
+    
+      // If operation fails, throw error
+  
+      // Otherwise, execute non-built-in commands using appropriate 'EXEC(3)' function
+    
+      // The command and arguments are executed in a new child process
+   
+      // If command name does not include "/", search for command in system's PATH
+      // environment variable (see EXECVP(3))
+  
+      // Call FORK(2), and throw error on failure
+      int child_status;
+      pid_t spawn_pid = fork();
+
+      switch(spawn_pid) {
+      case -1:
+        fprintf(stderr, "fork: ERROR - failed to create new process\n");
+        goto exit;
+        break;
+      case 0:
+        // Implement redirection operators '<' and '>'
+  
+        // In the child, reset signals to original states when smallsh was invoked.
+        // Note: Not the same as SIG_DFL. See oldact in SIGACTION(2)
+
+        // If a filename was specified as the operand to the input redirection operator
+        // ("<"), open file for reading on stdin, and throw error on failure
+
+        // If a filename was specified as the operand to the output redirection 
+        // operator, open file for writing on stdout. 
+
+          // If file does not exist, create with permissions 0777
+
+          // Throw error if file cannot be opened or created for writing
+  
+        // Implement the '&' operator to run commands in the background
+      
+        // If child process fails to exec, throw error
+    
+          // When an error occurs in child, print informative error message to stderr and
+          // exit with non-zero exit status
+  
+        execvp(words[0], words);
+        fprintf(stderr, "execvp: ERROR - failed to execute command\n");
+        goto exit;
+        break;
+      default:
+        spawn_pid = waitpid(spawn_pid, &child_status, 0);
+        for (size_t i = 0; i < word_count; ++i) free(words[i]);
+        free(words);
+        break;
+      }
+    }
+ 
     /* -------------------------------------------------------------------------------
      * WAITING
      *
@@ -287,9 +323,9 @@ int main(){
       // SIGSTP is ignored
       // Smallsh should set its disposition to SIG_IGN
   }
-
-  return errno ? -1 : 0;
-
+exit:;
+  free(line);
+  exit(errno);
 }
 
 char *str_gsub(char *restrict *restrict haystack, char const *restrict needle, char const *restrict sub) {
