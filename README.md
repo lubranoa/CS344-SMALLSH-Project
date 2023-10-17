@@ -43,31 +43,60 @@
 </details>
 
 ## Project Description
-This project is a command line shell called `smallsh` written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
+This project is a UNIX-like command line shell written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
 
 ## Technologies Used
-   - [![Python][Python]][Python-url]
+  - [![Python][Python]][Python-url]
 
 ## Features
-   - **Interactive Command Line**: Smallsh provides an interactive command-line interface, allowing users to enter commands and interact with the shell.
+  - **Interactive Command Line**: Smallsh provides an interactive command-line interface, allowing users to enter commands and interact with the shell.
 
-   - **Parameter Expansion**: The shell supports parameter expansion, including the use of special parameters like `$$`, `$?`, `$!`, and tilde `~` expansion.
+  - **Parameter Expansion**: The shell supports parameter expansion, including the use of special parameters like `$$`, `$?`, `$!`, and tilde `~` expansion.
 
-   - **Built-in Commands**: Smallsh implements two built-in commands, `exit` and `cd`, to manage the shell environment. The `exit` command allows users to exit the shell with an optional exit status, and the `cd` command enables users to change the current working directory.
+  - **Built-in Commands**: Smallsh implements two built-in commands, `exit` and `cd`, to manage the shell environment. The `exit` command allows users to exit the shell with an optional exit status, and the `cd` command enables users to change the current working directory.
 
-   - **Execution of Commands**: Smallsh can execute non-built-in commands using the appropriate `exec` functions. It searches for commands in the system's `PATH` environment variable.
+  - **Execution of Commands**: Smallsh can execute non-built-in commands using the appropriate `exec` functions. It searches for commands in the system's `PATH` environment variable.
 
-   - **Redirection Operators**: The shell supports input `<` and output `>` redirection, allowing users to redirect input from files and output to files.
+  - **Redirection Operators**: The shell supports input `<` and output `>` redirection, allowing users to redirect input from files and output to files.
 
-   - **Background Execution**: Users can run commands in the background using the `&` operator, allowing the shell to continue running while a background process executes.
+  - **Background Execution**: Users can run commands in the background using the `&` operator, allowing the shell to continue running while a background process executes.
 
-   - **Custom Signal Handling**: Smallsh handles signals, including `SIGINT` and `SIGTSTP`, to provide a user-friendly experience when dealing with interruptions and background processes.
+  - **Custom Signal Handling**: Smallsh handles signals, including `SIGINT` and `SIGTSTP`, to provide a user-friendly experience when dealing with interruptions and background processes.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 ## Usage
+Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
 
-Explain how to use or interact with your project
+  - First, run the shell:
+    ```
+    ./smallsh
+    ```
+
+  - Run a command:
+    ```
+    $ ls -l
+    ```
+
+  - Redirect input and output:
+    ```
+    $ cat input.txt > output.txt
+    ```
+
+  - Run a command in the background:
+    ```
+    $ sleep 10 &
+    ```
+
+  - Change the current working directory:
+    ```
+    $ cd /path/to/directory
+    ```
+
+  - Exit the shell:
+    ```
+    $ exit
+    ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
