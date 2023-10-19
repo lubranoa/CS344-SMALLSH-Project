@@ -32,6 +32,7 @@
   - [Project Description](#project-description)
   - [Technologies Used](#technologies-used)
   - [Features](#features)
+  - [Roadmap](#roadmap)
   - [Usage](#usage)
     - [Highlight 1](#highlight-1)
     - [Highlight 2](#highlight-2)
@@ -57,9 +58,9 @@ This project is a UNIX-like command line shell written in the C programming lang
 
   - Built-in commands `exit` and `cd`.
 
-  - Built-in Input/output redirection with `<`, `>`, and `>>`.
-
   - Handles non-built-in commands using the appropriate `exec` functions.
+
+  - Built-in Input/output redirection with `<`, `>`, and `>>`.
 
   - Parameter expansion of `$$`, `$!`, `$$`, and `${param}` with appropriate values.
 
@@ -82,14 +83,22 @@ Need to add or improve:
 ## Usage
 Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
 
-  - First, run the shell:
+  - Run the shell and run commands:
+    
     ```
-    ./smallsh
+    ~/smallsh$ ./smallsh
+    $ ls
+    file1.txt  file2.txt  file3.txt
+    $ echo "Hello, smallsh"
+    Hello, smallsh
     ```
-
-  - Run a command:
+  
+  - Run built-in commands:
     ```
-    $ ls -l
+    $ cd /path/to/directory
+    $ cd ..
+    $ exit 2
+    ~/smallsh$
     ```
 
   - Redirect input and output:
@@ -102,14 +111,9 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     $ sleep 10 &
     ```
 
-  - Change the current working directory:
+  - Environment variable substitution
     ```
-    $ cd /path/to/directory
-    ```
-
-  - Exit the shell:
-    ```
-    $ exit
+    put some stuff here
     ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
