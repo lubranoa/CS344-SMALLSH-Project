@@ -20,7 +20,7 @@
     <b>A Custom UNIX-like Shell Implemented in C</b>
   </p>
   <p align="center">
-    Term 202* · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=493&termcode=ALL">CS *** Course Link</a> · Oregon State University
+    Spring 2023 · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=344&termcode=ALL">CS 344 Operating Systems</a> · Oregon State University
   </p>
   <br />
 </div>
@@ -46,22 +46,36 @@
 This project is a UNIX-like command line shell written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
 
 ## Technologies Used
-  - [![Python][Python]][Python-url]
+  - [![C-language][C-language]][C-language-url]
+  - [![vim][vim]][vim-url]
+  - [![C-99-std][C-99-std]][C-99-std-url]
+  - [![Std-lib][Std-lib]][Std-lib-url]
+  - [![Sys-calls][Sys-calls]][Sys-calls-url]
 
 ## Features
-  - **Interactive Command Line**: Smallsh provides an interactive command-line interface, allowing users to enter commands and interact with the shell.
+  - Provides an interactive command line interface for users to interact with.
 
-  - **Parameter Expansion**: The shell supports parameter expansion, including the use of special parameters like `$$`, `$?`, `$!`, and tilde `~` expansion.
+  - Built-in commands `exit` and `cd`.
 
-  - **Built-in Commands**: Smallsh implements two built-in commands, `exit` and `cd`, to manage the shell environment. The `exit` command allows users to exit the shell with an optional exit status, and the `cd` command enables users to change the current working directory.
+  - Built-in Input/output redirection with `<`, `>`, and `>>`.
 
-  - **Execution of Commands**: Smallsh can execute non-built-in commands using the appropriate `exec` functions. It searches for commands in the system's `PATH` environment variable.
+  - Handles non-built-in commands using the appropriate `exec` functions.
 
-  - **Redirection Operators**: The shell supports input `<` and output `>` redirection, allowing users to redirect input from files and output to files.
+  - Parameter expansion of `$$`, `$!`, `$$`, and `${param}` with appropriate values.
 
-  - **Background Execution**: Users can run commands in the background using the `&` operator, allowing the shell to continue running while a background process executes.
+  - Run commands in the background using the `&` operator.
 
-  - **Custom Signal Handling**: Smallsh handles signals, including `SIGINT` and `SIGTSTP`, to provide a user-friendly experience when dealing with interruptions and background processes.
+  - Customizable shell prompt using the `PS1` environment variable.
+
+## Roadmap
+Need to add or improve:
+    
+  - Input/Output Redirection needs fixing.
+    
+  - Checking for any un-waited for background processes.
+
+  - Custom signal handling of `SIGINT` and `SIGTSTP`.
+ 
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -100,18 +114,6 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-### Highlight 1
-   
-Description of highlight.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-### Highlight 2
-   
-Description of highlight.
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 ## Skills Used
 #### Skill 1:
   - description
@@ -130,5 +132,17 @@ Description of highlight.
 
 <!-- Markdown links -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[Python]: https://img.shields.io/badge/Python-3776AB?style=for-the-badge&logo=python&logoColor=ffd343
-[Python-url]: https://www.python.org/
+[C-language]: https://img.shields.io/badge/Language-grey?style=for-the-badge&logo=c&logoColor=#A8B9CC
+[C-language-url]: https://en.cppreference.com/
+
+[vim]:https://img.shields.io/badge/Vim-grey?style=for-the-badge&logo=vim&logoColor=019733
+[vim-url]: https://www.vim.org/
+
+[C-99-std]: https://img.shields.io/badge/Standard_C99_(gcc)-grey?style=for-the-badge
+[C-99-std-url]: https://en.cppreference.com/w/c/99
+
+[std-lib]: https://img.shields.io/badge/C_Standard_Library-grey?style=for-the-badge
+[std-lib-url]:https://en.cppreference.com/w/c/header
+
+[Sys-calls]: https://img.shields.io/badge/System_Calls-grey?style=for-the-badge
+[Sys-calls-url]: https://man7.org/linux/man-pages/man2/syscalls.2.html
