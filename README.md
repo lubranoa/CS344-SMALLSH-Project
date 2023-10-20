@@ -1,8 +1,9 @@
 <!-- Improved compatibility of back to top link: See: https://github.com/othneildrew/Best-README-Template/pull/73 -->
 <a name="readme-top"></a>
 
-<!-- Centered title section with descriptive lines -->
+<!-- Centered Title Section-->
 <div align="center">
+  <!-- Title Section Links -->
   <p>
     <a href="www.linkedin.com/in/lubrano-alexander">
       <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin" alt="linkedin link" />
@@ -34,8 +35,6 @@
   - [Features](#features)
   - [Roadmap](#roadmap)
   - [Usage](#usage)
-    - [Highlight 1](#highlight-1)
-    - [Highlight 2](#highlight-2)
   - [Skills Used](#skills-used)
     - [Skill 1](#skill-1)
     - [Skill 2](#skill-2)
@@ -43,9 +42,11 @@
 
 </details>
 
+<!-- Project Description -->
 ## Project Description
 This project is a UNIX-like command line shell written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
 
+<!-- Technologies Used -->
 ## Technologies Used
   - [![C-language][C-language]][C-language-url]
   - [![vim][vim]][vim-url]
@@ -53,38 +54,40 @@ This project is a UNIX-like command line shell written in the C programming lang
   - [![Std-lib][Std-lib]][Std-lib-url]
   - [![Sys-calls][Sys-calls]][Sys-calls-url]
 
+<!-- Features -->
 ## Features
   - Provides an interactive command line interface for users to interact with.
 
   - Built-in commands `exit` and `cd`.
 
-  - Handles non-built-in commands using the appropriate `exec` functions.
+  - Handles non-built-in commands using the appropriate `EXEC(3)` functions.
 
-  - Built-in Input/output redirection with `<`, `>`, and `>>`.
+  - Built-in Input/Output redirection operators `<`, `>`, and `>>`.
 
-  - Parameter expansion of `$$`, `$!`, `$$`, and `${param}` with appropriate values.
+  - Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
 
   - Run commands in the background using the `&` operator.
 
-  - Customizable shell prompt using the `PS1` environment variable.
+  - Does **not** recognize format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
 
+<!-- Roadmap -->
 ## Roadmap
 Need to add or improve:
     
-  - Input/Output Redirection needs fixing.
+  - [ ] Fix I/O redirection
     
-  - Checking for any un-waited for background processes.
+  - [ ] Fix checking for any un-waited for background processes
 
-  - Custom signal handling of `SIGINT` and `SIGTSTP`.
+  - [ ] Add custom signal handling of `SIGINT` and `SIGTSTP`
  
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+<!-- Usage -->
 ## Usage
 Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
 
-  - Run the shell and run commands:
-    
+  - Run the shell, then run commands:
     ```
     ~/smallsh$ ./smallsh
     $ ls
@@ -94,6 +97,8 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ```
   
   - Run built-in commands:
+    - The `cd` command changes the current working directory.
+    - The `exit` command can be provided with an optional exit code. Otherwise, the default value is `0`.
     ```
     $ cd /path/to/directory
     $ cd ..
@@ -101,36 +106,61 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ~/smallsh$
     ```
 
-  - Redirect input and output:
+  - Redirect input and output with `<`, `>`, and `>>`:
     ```
-    $ cat input.txt > output.txt
+    $ cat < input.txt
+    $ ls > output.txt
+    $ echo "Append text" >> output.txt
+    ```
+
+  - Parameter expansion of environment variables:
+    - **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
+    - **`$?`**: Replaced by the exit status of the last foreground command.
+    - **`$?`**: Replaced by the process ID of the of the most recent background process.
+    - **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
+    ```
+    $ echo "Smallsh PID: $$"
+    $ echo "Exit status of last foreground command: $?"
+    $ echo "Last background process PID: $!"
+    $ echo "Home directory: ${HOME}"
     ```
 
   - Run a command in the background:
+    - Executes in the background, allowing user to continue using the shell without waiting for the command to finish
     ```
     $ sleep 10 &
+    $ ls
+    file1.txt  file2.txt  file3.txt
+    $ 
     ```
 
-  - Environment variable substitution
+  - Fix for odd or nonexistent prompt:
+    - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
+    - Use a temporary `PS1` variable:
     ```
-    put some stuff here
+    ~/smallsh$ PS1=">>> " ./smallsh
+    >>> ls
+    file1.txt file2.txt file3.txt
+    >>> 
     ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Skills Used
-#### Skill 1:
-  - description
-#### Skill 2:
-  - description
+<!-- Contact -->
+## Contact
+Alexander Lubrano - <a href="mailto:lubrano.alexander@gmail.com">lubrano.alexander@gmail.com</a> - <a href="www.linkedin.com/in/lubrano-alexander">LinkedIn</a>
+
+Project Link: <a href="https://github.com/lubranoa/CS344-SMALLSH-Project">https://github.com/lubranoa/CS344-SMALLSH-Project</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-## Author
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## References
+<!-- Acknowledgements -->
+## Acknowledgments
+  - <a href="https://en.cppreference.com/">CPP Reference</a>
+  - <a href="https://man7.org/linux/man-pages/index.html">Linux Man Pages Online</a>
+  - <a href="https://vim.rtorr.com/">Vim Cheat Sheet</a>
+  - <a href="https://shields.io/">Shields.io</a>
+  - <a href="https://simpleicons.org/">Simple Icons</a>
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
