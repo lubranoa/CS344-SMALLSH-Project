@@ -35,9 +35,6 @@
   - [Features](#features)
   - [Roadmap](#roadmap)
   - [Usage](#usage)
-  - [Skills Used](#skills-used)
-    - [Skill 1](#skill-1)
-    - [Skill 2](#skill-2)
   - [References](#references)
 
 </details>
@@ -88,6 +85,7 @@ Need to add or improve:
 Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
 
   - Run the shell, then run commands:
+
     ```
     ~/smallsh$ ./smallsh
     $ ls
@@ -99,6 +97,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
   - Run built-in commands:
     - The `cd` command changes the current working directory.
     - The `exit` command can be provided with an optional exit code. Otherwise, the default value is `0`.
+
     ```
     $ cd /path/to/directory
     $ cd ..
@@ -107,6 +106,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ```
 
   - Redirect input and output with `<`, `>`, and `>>`:
+
     ```
     $ cat < input.txt
     $ ls > output.txt
@@ -118,6 +118,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     - **`$?`**: Replaced by the exit status of the last foreground command.
     - **`$?`**: Replaced by the process ID of the of the most recent background process.
     - **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
+
     ```
     $ echo "Smallsh PID: $$"
     $ echo "Exit status of last foreground command: $?"
@@ -127,6 +128,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
   - Run a command in the background:
     - Executes in the background, allowing user to continue using the shell without waiting for the command to finish
+
     ```
     $ sleep 10 &
     $ ls
@@ -137,6 +139,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
   - Fix for odd or nonexistent prompt:
     - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
     - Use a temporary `PS1` variable:
+    
     ```
     ~/smallsh$ PS1=">>> " ./smallsh
     >>> ls
