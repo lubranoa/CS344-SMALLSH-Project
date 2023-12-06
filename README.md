@@ -57,9 +57,13 @@ This project is a UNIX-like command line shell written in the C programming lang
 <!-- Features -->
 ## Features
 
-  - Provides an interactive command line interface for users to interact with.
+  - Interactive command line interface for users to interact with.
 
-  - Built-in commands `exit` and `cd`.
+  - Parses user commands into semantic tokens to carry out the command.
+
+  - Runs every command as a child process.
+  
+  - Implements the built-in commands `exit` and `cd`.
 
   - Handles non-built-in commands using the appropriate `EXEC(3)` functions.
 
@@ -71,42 +75,55 @@ This project is a UNIX-like command line shell written in the C programming lang
 
   - (Unfinished) Custom signal handling of `SIGINT` and `SIGTSTP`
 
-  - Does **not** recognize format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
+  - Does **not** recognize fancy format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
 
 <!-- Usage -->
 ## Usage
 
-Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
+Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples. For the following examples, :
 
-  - Run the shell, then run commands:
+  - Run the shell, then enter some commands:
 
     ```bash
-    ~/smallsh$ ./smallsh
+    ~/dir$ ./smallsh
     $ ls
-    file1.txt  file2.txt  file3.txt
-    $ echo "Hello, smallsh"
-    Hello, smallsh
+    file1.txt  file2.txt  file3.txt  smallsh
+    $ echo "Hello, smallsh!"
+    Hello, smallsh!
+    $ exit
+    ~/dir$
     ```
 
   - Run built-in commands:
 
-    - The `cd` command changes the current working directory.
-    - The `exit` command can be provided with an optional exit code. Otherwise, the default value is `0`.
+    - **`cd`**
 
-    ```bash
-    $ cd /path/to/directory
-    $ cd ..
-    $ exit 2
-    ~/smallsh$
-    ```
+      - Used to change the current working directory. Can be given an optional directory path as an argument. If not provided, defaults to change to the home directory.
 
-  - Redirect input and output with `<`, `>`, and `>>`:
+      ```bash
+      $ pwd
+      /home/user/dir
+      $ cd /path/to/directory
+      $ cd ..
+      $ pwd
+      /path/to/directory
+      $ cd
+      $ pwd
+      /home/user
+      ```
+    
+    - **`exit`**
+      - Used to exit the smallsh shell. Can be given an optional exit status code as an argument. If not provided, defaults to an exit status of `0`.
 
-    ```bash
-    $ cat < input.txt
-    $ ls > output.txt
-    $ echo "Append text" >> output.txt
-    ```
+      ```bash
+      $ exit
+      ~/dir$ echo $?
+      0
+      ~/dir$ ./smallsh
+      $ exit 1234
+      ~/dir$ echo $?
+      1234
+      ```
 
   - Parameter expansion of environment variables:
 
@@ -117,35 +134,95 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
     ```bash
     $ echo "Smallsh PID: $$"
+    Smallsh PID: 1234
     $ echo "Exit status of last foreground command: $?"
+    Exit status of last foreground command: 0
     $ echo "Last background process PID: $!"
+    Last background process PID: 5678
     $ echo "Home directory: ${HOME}"
+    Home directory: /home/user
     ```
 
   - Run a command in the background:
 
-    - Executes in the background, allowing user to continue using the shell without waiting for the command to finish
+    - To execute a command in the background, append `&` to a command. Smallsh will execute it in the background, allowing user to continue using the shell without waiting for the command to finish.
 
     ```bash
-    $ sleep 10 &
+    $ sleep 5 &
     $ ls
-    file1.txt  file2.txt  file3.txt
-    $ 
+    file1.txt  file2.txt  file3.txt  smallsh
+    $ ls
+    Child process 3333 done. Exit status 0.
+    file1.txt  file2.txt  file3.txt  smallsh    
     ```
 
-  - Fix for odd or nonexistent prompt:
+  - (Unfinished) Redirect input and output with `<`, `>`, and `>>`:
+
+    ```bash
+    $ cat < input.txt
+    Hello, smallsh!
+    $ ls > output.txt
+    $ cat < output.txt
+    file1.txt  file2.txt  file3.txt  smallsh
+    $ echo "Append text" >> output.txt
+    $ cat < output.txt
+    file1.txt  file2.txt  file3.txt  smallshAppend text
+    ```
+
+  - (Unfinished) Custom signal handling
+    
+    - **`SIGTSTP`** (Ctrl-z)
+      - Normally would cause a process to be stopped immediately. This signal is ignored by smallsh. The assignment specifications stated that the smallsh process should not respond to it by setting its disposition to `SIG_IGN`.
+
+    - **`SIGINT`** (Ctrl-c)
+      - Normally would cause a process to exit immediately. This signal is ignored by smallsh except when waiting for input.
+      - If the user presses ctrl-c while smallsh is waiting for input, it will print a new prompt and wait for input again.
+
+      ```bash
+      $ ^C # does not show up when typed, only a visual representation
+      $ 
+      $ 
+      $ 
+      ```
+
+  - **FIX**: Odd or nonexistent prompt:
 
     - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
     - Use a temporary `PS1` variable:
     
     ```bash
-    ~/smallsh$ PS1=">>> " ./smallsh
+    ~/dir$ ./smallsh
+    \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] ls
+    file1.txt  file2.txt  file3.txt  smallsh
+    \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] exit
+    ~/dir$ PS1=">>> " ./smallsh
     >>> ls
-    file1.txt file2.txt file3.txt
+    file1.txt  file2.txt  file3.txt  smallsh
     >>> 
     ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
+
+<!-- Skills Applied -->
+## Skills Applied
+
+  - C language and its libraries
+
+  - String manipulation and tokenization
+
+  - Command-line interface development
+
+  - UNIX system calls
+
+  - Error handling
+
+  - Dynamic memory management
+
+  - File input/output
+
+  - Managing parent and child processes
+  
+  - Shell scripting and makefile usage
 
 <!-- Contact -->
 ## Contact
