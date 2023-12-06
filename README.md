@@ -15,6 +15,7 @@
       <img src="https://img.shields.io/badge/GitHub-8A2BE2?style=for-the-badge&logo=github" alt="github profile link" />
     </a>
   </p>
+  <br />
   <!-- Titles and Subtitles -->
   <h1 align="center">Smallsh</h1>
   <p align="center">
@@ -86,7 +87,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     $ echo "Hello, smallsh"
     Hello, smallsh
     ```
-  
+
   - Run built-in commands:
 
     - The `cd` command changes the current working directory.
@@ -158,7 +159,7 @@ Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 <!-- Acknowledgements -->
 ## Acknowledgments
   
-  - [C on CPP Reference][c-ref-url]
+  - [C reference on CPP Reference][c-ref-url]
   - [Linux Man Pages Online][man-url]
   - [Vim Cheat Sheet][cheat-url]
   - [Shields.io][shields-url]
