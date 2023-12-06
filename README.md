@@ -41,10 +41,12 @@
 
 <!-- Project Description -->
 ## Project Description
+
 This project is a UNIX-like command line shell written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
 
 <!-- Technologies Used -->
 ## Technologies Used
+
   - [![C-language][C-language]][C-language-url]
   - [![vim][vim]][vim-url]
   - [![C-99-std][C-99-std]][C-99-std-url]
@@ -53,40 +55,31 @@ This project is a UNIX-like command line shell written in the C programming lang
 
 <!-- Features -->
 ## Features
+
   - Provides an interactive command line interface for users to interact with.
 
   - Built-in commands `exit` and `cd`.
 
   - Handles non-built-in commands using the appropriate `EXEC(3)` functions.
 
-  - Built-in Input/Output redirection operators `<`, `>`, and `>>`.
-
-  - Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
-
   - Run commands in the background using the `&` operator.
+
+  - (Unfinished) Built-in Input/Output redirection operators `<`, `>`, and `>>`.
+
+  - (Unfinished) Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
+
+  - (Unfinished) Custom signal handling of `SIGINT` and `SIGTSTP`
 
   - Does **not** recognize format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
 
-<!-- Roadmap -->
-## Roadmap
-Need to add or improve:
-    
-  - [ ] Fix I/O redirection
-    
-  - [ ] Fix checking for any un-waited for background processes
-
-  - [ ] Add custom signal handling of `SIGINT` and `SIGTSTP`
- 
-
-<p align="right">(<a href="#readme-top">back to top</a>)</p>
-
 <!-- Usage -->
 ## Usage
+
 Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples:
 
   - Run the shell, then run commands:
 
-    ```
+    ```bash
     ~/smallsh$ ./smallsh
     $ ls
     file1.txt  file2.txt  file3.txt
@@ -95,10 +88,11 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ```
   
   - Run built-in commands:
+
     - The `cd` command changes the current working directory.
     - The `exit` command can be provided with an optional exit code. Otherwise, the default value is `0`.
 
-    ```
+    ```bash
     $ cd /path/to/directory
     $ cd ..
     $ exit 2
@@ -107,19 +101,20 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
   - Redirect input and output with `<`, `>`, and `>>`:
 
-    ```
+    ```bash
     $ cat < input.txt
     $ ls > output.txt
     $ echo "Append text" >> output.txt
     ```
 
   - Parameter expansion of environment variables:
+
     - **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
     - **`$?`**: Replaced by the exit status of the last foreground command.
     - **`$?`**: Replaced by the process ID of the of the most recent background process.
     - **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
 
-    ```
+    ```bash
     $ echo "Smallsh PID: $$"
     $ echo "Exit status of last foreground command: $?"
     $ echo "Last background process PID: $!"
@@ -127,9 +122,10 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ```
 
   - Run a command in the background:
+
     - Executes in the background, allowing user to continue using the shell without waiting for the command to finish
 
-    ```
+    ```bash
     $ sleep 10 &
     $ ls
     file1.txt  file2.txt  file3.txt
@@ -137,10 +133,11 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ```
 
   - Fix for odd or nonexistent prompt:
+
     - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
     - Use a temporary `PS1` variable:
     
-    ```
+    ```bash
     ~/smallsh$ PS1=">>> " ./smallsh
     >>> ls
     file1.txt file2.txt file3.txt
@@ -151,6 +148,7 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
 <!-- Contact -->
 ## Contact
+
 Alexander Lubrano - <a href="mailto:lubrano.alexander@gmail.com">lubrano.alexander@gmail.com</a> - <a href="www.linkedin.com/in/lubrano-alexander">LinkedIn</a>
 
 Project Link: <a href="https://github.com/lubranoa/CS344-SMALLSH-Project">https://github.com/lubranoa/CS344-SMALLSH-Project</a>
@@ -159,6 +157,7 @@ Project Link: <a href="https://github.com/lubranoa/CS344-SMALLSH-Project">https:
 
 <!-- Acknowledgements -->
 ## Acknowledgments
+
   - <a href="https://en.cppreference.com/">CPP Reference</a>
   - <a href="https://man7.org/linux/man-pages/index.html">Linux Man Pages Online</a>
   - <a href="https://vim.rtorr.com/">Vim Cheat Sheet</a>
