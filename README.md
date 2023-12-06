@@ -33,9 +33,9 @@
   - [Project Description](#project-description)
   - [Technologies Used](#technologies-used)
   - [Features](#features)
-  - [Roadmap](#roadmap)
   - [Usage](#usage)
-  - [References](#references)
+  - [Contact](#contact)
+  - [Acknowledgments](#acknowledgments)
 
 </details>
 
@@ -47,11 +47,11 @@ This project is a UNIX-like command line shell written in the C programming lang
 <!-- Technologies Used -->
 ## Technologies Used
 
-  - [![C-language][C-language]][C-language-url]
+  - [![c-language][c-language]][c-language-url]
   - [![vim][vim]][vim-url]
-  - [![C-99-std][C-99-std]][C-99-std-url]
-  - [![Std-lib][Std-lib]][Std-lib-url]
-  - [![Sys-calls][Sys-calls]][Sys-calls-url]
+  - [![c-99-std][c-99-std]][c-99-std-url]
+  - [![std-lib][std-lib]][std-lib-url]
+  - [![sys-calls][sys-calls]][sys-calls-url]
 
 <!-- Features -->
 ## Features
@@ -64,9 +64,9 @@ This project is a UNIX-like command line shell written in the C programming lang
 
   - Run commands in the background using the `&` operator.
 
-  - (Unfinished) Built-in Input/Output redirection operators `<`, `>`, and `>>`.
+  - (Mostly finished) Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
 
-  - (Unfinished) Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
+  - (Unfinished) Built-in Input/Output redirection operators `<`, `>`, and `>>`.
 
   - (Unfinished) Custom signal handling of `SIGINT` and `SIGTSTP`
 
@@ -149,36 +149,46 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 <!-- Contact -->
 ## Contact
 
-Alexander Lubrano - <a href="mailto:lubrano.alexander@gmail.com">lubrano.alexander@gmail.com</a> - <a href="www.linkedin.com/in/lubrano-alexander">LinkedIn</a>
+Alexander Lubrano - [lubrano.alexander@gmail.com][email] - [LinkedIn][linkedin-url]
 
-Project Link: <a href="https://github.com/lubranoa/CS344-SMALLSH-Project">https://github.com/lubranoa/CS344-SMALLSH-Project</a>
+Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Acknowledgements -->
 ## Acknowledgments
-
-  - <a href="https://en.cppreference.com/">CPP Reference</a>
-  - <a href="https://man7.org/linux/man-pages/index.html">Linux Man Pages Online</a>
-  - <a href="https://vim.rtorr.com/">Vim Cheat Sheet</a>
-  - <a href="https://shields.io/">Shields.io</a>
-  - <a href="https://simpleicons.org/">Simple Icons</a>
+  
+  - [C on CPP Reference][c-ref-url]
+  - [Linux Man Pages Online][man-url]
+  - [Vim Cheat Sheet][cheat-url]
+  - [Shields.io][shields-url]
+  - [Simple Icons][icons-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Markdown links -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[C-language]: https://img.shields.io/badge/Language-grey?style=for-the-badge&logo=c&logoColor=#A8B9CC
-[C-language-url]: https://en.cppreference.com/
+[c-language]: https://img.shields.io/badge/Language-grey?style=for-the-badge&logo=c&logoColor=#A8B9CC
+[c-language-url]: https://en.cppreference.com/
 
 [vim]:https://img.shields.io/badge/Vim-grey?style=for-the-badge&logo=vim&logoColor=019733
 [vim-url]: https://www.vim.org/
 
-[C-99-std]: https://img.shields.io/badge/Standard_C99_(gcc)-grey?style=for-the-badge
-[C-99-std-url]: https://en.cppreference.com/w/c/99
+[c-99-std]: https://img.shields.io/badge/Standard_C99_(gcc)-grey?style=for-the-badge
+[c-99-std-url]: https://en.cppreference.com/w/c/99
 
 [std-lib]: https://img.shields.io/badge/C_Standard_Library-grey?style=for-the-badge
 [std-lib-url]:https://en.cppreference.com/w/c/header
 
-[Sys-calls]: https://img.shields.io/badge/System_Calls-grey?style=for-the-badge
-[Sys-calls-url]: https://man7.org/linux/man-pages/man2/syscalls.2.html
+[sys-calls]: https://img.shields.io/badge/Linux_System_Calls-grey?style=for-the-badge
+[sys-calls-url]: https://man7.org/linux/man-pages/man2/syscalls.2.html
+
+[email]: mailto:lubrano.alexander@gmail.com
+[linkedin-url]: https://linkedin.com/in/lubrano-alexander
+[repo-url]: https://github.com/lubranoa/CS344-SMALLSH-Project
+
+[cheat-url]: https://vim.rtorr.com/
+[man-url]: https://man7.org/linux/man-pages/index.html
+[c-ref-url]: https://en.cppreference.com/w/c
+[shields-url]: https://shields.io/
+[icons-url]: https://simpleicons.org/
