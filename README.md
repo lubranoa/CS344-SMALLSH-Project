@@ -183,12 +183,12 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
       - Normally would cause a process to exit immediately. This signal is ignored by smallsh except when waiting for input.
       - If the user presses ctrl-c while smallsh is waiting for input, it will print a new prompt and wait for input again.
 
-      ```bash
-      $ ^C # does not show up when typed, only a visual representation
-      $ 
-      $ 
-      $ 
-      ```
+        ```bash
+        $ ^C # does not show up when typed, only a visual representation
+        $ 
+        $ 
+        $ 
+        ```
 
   - **FIX**: Odd or nonexistent prompt:
 
