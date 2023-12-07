@@ -167,18 +167,24 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
       file1.txt  file2.txt  file3.txt  smallsh    
       ```
 
-  - (Unfinished) Redirect input and output with `<`, `>`, and `>>`:
+  - (Unfinished) Input/Output Redirection:
+    
+    - **`<`**: Redirects standard input to a file.
 
-    ```bash
-    $ cat < input.txt
-    Hello, smallsh!
-    $ ls > output.txt
-    $ cat < output.txt
-    file1.txt  file2.txt  file3.txt  smallsh
-    $ echo "Append text" >> output.txt
-    $ cat < output.txt
-    file1.txt  file2.txt  file3.txt  smallshAppend text
-    ```
+    - **`>`**: Redirects standard output to a file, overwriting the file if it exists.
+    
+    - **`>>`**: Redirects standard output to a file, appending to the file if it exists.
+
+      ```bash
+      $ cat < input.txt
+      Hello, smallsh!
+      $ ls > output.txt
+      $ cat < output.txt
+      file1.txt  file2.txt  file3.txt  smallsh
+      $ echo "Append text" >> output.txt
+      $ cat < output.txt
+      file1.txt  file2.txt  file3.txt  smallshAppend text
+      ```
 
   - (Unfinished) Custom signal handling
     
@@ -247,7 +253,7 @@ Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 <!-- Acknowledgments -->
 ## Acknowledgments
   
-  - [C reference on CPP Reference][c-ref-url]
+  - [C reference on CPP Reference][c-language-url]
   - [Linux Man Pages Online][man-url]
   - [Vim Cheat Sheet][cheat-url]
   - [Shields.io][shields-url]
@@ -258,7 +264,7 @@ Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 <!-- Markdown links -->
 <!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
 [c-language]: https://img.shields.io/badge/Language-grey?style=for-the-badge&logo=c&logoColor=#A8B9CC
-[c-language-url]: https://en.cppreference.com/
+[c-language-url]: https://en.cppreference.com/w/c
 
 [vim]:https://img.shields.io/badge/Vim-grey?style=for-the-badge&logo=vim&logoColor=019733
 [vim-url]: https://www.vim.org/
@@ -278,6 +284,5 @@ Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 
 [cheat-url]: https://vim.rtorr.com/
 [man-url]: https://man7.org/linux/man-pages/index.html
-[c-ref-url]: https://en.cppreference.com/w/c
 [shields-url]: https://shields.io/
 [icons-url]: https://simpleicons.org/
