@@ -35,6 +35,7 @@
   - [Technologies Used](#technologies-used)
   - [Features](#features)
   - [Usage](#usage)
+  - [Skills Applied](#skills-applied)
   - [Contact](#contact)
   - [Acknowledgments](#acknowledgments)
 
@@ -100,61 +101,65 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
       - Used to change the current working directory. Can be given an optional directory path as an argument. If not provided, defaults to change to the home directory.
 
-      ```bash
-      $ pwd
-      /home/user/dir
-      $ cd /path/to/directory
-      $ cd ..
-      $ pwd
-      /path/to/directory
-      $ cd
-      $ pwd
-      /home/user
-      ```
+        ```bash
+        $ pwd
+        /home/user/dir
+        $ cd /path/to/directory
+        $ cd ..
+        $ pwd
+        /path/to/directory
+        $ cd
+        $ pwd
+        /home/user
+        ```
     
     - **`exit`**
+
       - Used to exit the smallsh shell. Can be given an optional exit status code as an argument. If not provided, defaults to an exit status of `0`.
 
-      ```bash
-      $ exit
-      ~/dir$ echo $?
-      0
-      ~/dir$ ./smallsh
-      $ exit 1234
-      ~/dir$ echo $?
-      1234
-      ```
+        ```bash
+        $ exit
+        ~/dir$ echo $?
+        0
+        ~/dir$ ./smallsh
+        $ exit 1234
+        ~/dir$ echo $?
+        1234
+        ```
 
   - Parameter expansion of environment variables:
 
     - **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
+
     - **`$?`**: Replaced by the exit status of the last foreground command.
+
     - **`$?`**: Replaced by the process ID of the of the most recent background process.
+
     - **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
 
-    ```bash
-    $ echo "Smallsh PID: $$"
-    Smallsh PID: 1234
-    $ echo "Exit status of last foreground command: $?"
-    Exit status of last foreground command: 0
-    $ echo "Last background process PID: $!"
-    Last background process PID: 5678
-    $ echo "Home directory: ${HOME}"
-    Home directory: /home/user
-    ```
+      ```bash
+      $ echo "Smallsh PID: $$"
+      Smallsh PID: 1234
+      $ echo "Exit status of last foreground command: $?"
+      Exit status of last foreground command: 0
+      $ echo "Last background process PID: $!"
+      Last background process PID: 5678
+      $ echo "Home directory: ${HOME}"
+      Home directory: /home/user
+      ```
 
   - Run a command in the background:
 
     - To execute a command in the background, append `&` to a command. Smallsh will execute it in the background, allowing user to continue using the shell without waiting for the command to finish.
 
-    ```bash
-    $ sleep 5 &
-    $ ls
-    file1.txt  file2.txt  file3.txt  smallsh
-    $ ls
-    Child process 3333 done. Exit status 0.
-    file1.txt  file2.txt  file3.txt  smallsh    
-    ```
+      ```bash
+      $ sleep 5 &
+      $ ls
+      file1.txt  file2.txt  file3.txt  smallsh
+      $ ls
+      Child process 3333 done. Exit status 0.
+      file1.txt  file2.txt  file3.txt  smallsh    
+      ```
 
   - (Unfinished) Redirect input and output with `<`, `>`, and `>>`:
 
@@ -190,16 +195,16 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
     - Use a temporary `PS1` variable:
     
-    ```bash
-    ~/dir$ ./smallsh
-    \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] ls
-    file1.txt  file2.txt  file3.txt  smallsh
-    \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] exit
-    ~/dir$ PS1=">>> " ./smallsh
-    >>> ls
-    file1.txt  file2.txt  file3.txt  smallsh
-    >>> 
-    ```
+      ```bash
+      ~/dir$ ./smallsh
+      \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] ls
+      file1.txt  file2.txt  file3.txt  smallsh
+      \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] exit
+      ~/dir$ PS1=">>> " ./smallsh
+      >>> ls
+      file1.txt  file2.txt  file3.txt  smallsh
+      >>> 
+      ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
@@ -212,13 +217,11 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
 
   - Command-line interface development
 
-  - UNIX system calls
+  - UNIX system calls for file I/O and child processes
 
-  - Error handling
+  - Error handling of called functions for crash protection
 
   - Dynamic memory management
-
-  - File input/output
 
   - Managing parent and child processes
   
