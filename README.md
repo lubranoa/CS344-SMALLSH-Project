@@ -5,7 +5,7 @@
 <div align="center">
   <!-- Title Section Links -->
   <p>
-    <a href="www.linkedin.com/in/lubrano-alexander">
+    <a href="https://www.linkedin.com/in/lubrano-alexander">
       <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin" alt="linkedin link" />
     </a>
     <a href="https://lubranoa.github.io">
@@ -46,6 +46,8 @@
 
 This project is a UNIX-like command line shell written in the C programming language and designed to operate like well-known shells like bash. Smallsh is designed to perform common shell functions such as parsing commands, executing processes, and managing background tasks.
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- Technologies Used -->
 ## Technologies Used
 
@@ -54,6 +56,8 @@ This project is a UNIX-like command line shell written in the C programming lang
   - [![c-99-std][c-99-std]][c-99-std-url]
   - [![std-lib][std-lib]][std-lib-url]
   - [![sys-calls][sys-calls]][sys-calls-url]
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Features -->
 ## Features
@@ -77,6 +81,8 @@ This project is a UNIX-like command line shell written in the C programming lang
   - (Unfinished) Custom signal handling of `SIGINT` and `SIGTSTP`
 
   - Does **not** recognize fancy format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
+
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Usage -->
 ## Usage
@@ -227,6 +233,8 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
   
   - Shell scripting and makefile usage
 
+<p align="right">(<a href="#readme-top">back to top</a>)</p>
+
 <!-- Contact -->
 ## Contact
 
@@ -236,7 +244,7 @@ Project Link: [https://github.com/lubranoa/CS344-SMALLSH-Project][repo-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
-<!-- Acknowledgements -->
+<!-- Acknowledgments -->
 ## Acknowledgments
   
   - [C reference on CPP Reference][c-ref-url]
