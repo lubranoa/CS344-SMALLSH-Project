@@ -17,9 +17,9 @@
   </p>
   <br />
   <!-- Titles and Subtitles -->
-  <h1 align="center">Smallsh</h1>
+  <h1 align="center">Custom Shell with Command Parsing and Process Handling</h1>
   <p align="center">
-    <b>A Custom UNIX-like Shell Implemented in C</b>
+    <b>A UNIX-like command line shell designed to operate like well-known shells such as bash</b>
   </p>
   <p align="center">
     Spring 2023 · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=344&termcode=ALL">CS 344 Operating Systems</a> · Oregon State University
@@ -52,10 +52,10 @@ This project is a UNIX-like command line shell written in the C programming lang
 ## Technologies Used
 
   - [![c-language][c-language]][c-language-url]
-  - [![vim][vim]][vim-url]
   - [![c-99-std][c-99-std]][c-99-std-url]
   - [![std-lib][std-lib]][std-lib-url]
   - [![sys-calls][sys-calls]][sys-calls-url]
+  - [![vim][vim]][vim-url]
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
