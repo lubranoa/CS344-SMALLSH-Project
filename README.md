@@ -62,34 +62,41 @@ This project is a UNIX-like command line shell written in the C programming lang
 <!-- Features -->
 ## Features
 
-  - Interactive command line interface for users to interact with.
+- Provides an interactive command-line interface for executing user commands.
 
-  - Parses user commands into semantic tokens to carry out the command.
+- Parses user input into tokens for command and argument handling.
 
-  - Runs every command as a child process.
-  
-  - Implements the built-in commands `exit` and `cd`.
+- Executes commands as child processes and includes built-in commands such as `exit` and `cd`.
 
-  - Handles non-built-in commands using the appropriate `EXEC(3)` functions.
+- Enables background process execution with the `&` operator.
 
-  - Run commands in the background using the `&` operator.
+- Expands parameters like `$$`, `$?`, `$!`, and `${param}` in user commands. [Mostly finished]
 
-  - (Mostly finished) Parameter expansion of `$$`, `$?`, `$!`, and `${param}` with appropriate environment variable values.
+- Planned input/output redirection using `<`, `>`, and `>>` operators. [Unfinished]
 
-  - (Unfinished) Built-in Input/Output redirection operators `<`, `>`, and `>>`.
+- Planned for custom signal handling of `SIGINT` and `SIGTSTP`. [Unfinished]
 
-  - (Unfinished) Custom signal handling of `SIGINT` and `SIGTSTP`
-
-  - Does **not** recognize fancy format specifiers used in the `PS1` environment variable, so the user's prompt output may look odd or not appear. See fix in Usage.
+- Includes a workaround for handling advanced `PS1` environment variable format specifiers (see Usage section for details).
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
 <!-- Usage -->
 ## Usage
 
-Smallsh provides a command-line interface for users to execute commands. Here are some basic usage examples. For the following examples, :
+Smallsh provides a command-line interface for users to execute commands.
 
-  - Run the shell, then enter some commands:
+### Compilation
+
+To compile the `smallsh` program, navigate to the project directory and run:
+
+```bash
+gcc --std=gnu99 -o smallsh smallsh.c
+```
+
+This command compiles the source code into an executable named `smallsh`.
+
+### Running the Shell
+To run the shell after compiling, start the shell by executing ```./smallsh``` and a prompt will appear where commands can be entered:
 
     ```bash
     ~/dir$ ./smallsh
@@ -101,122 +108,124 @@ Smallsh provides a command-line interface for users to execute commands. Here ar
     ~/dir$
     ```
 
-  - Run built-in commands:
+### Executing Commands
 
-    - **`cd`**
+- Built-in Commands:
 
-      - Used to change the current working directory. Can be given an optional directory path as an argument. If not provided, defaults to change to the home directory.
-
-        ```bash
-        $ pwd
-        /home/user/dir
-        $ cd /path/to/directory
-        $ cd ..
-        $ pwd
-        /path/to/directory
-        $ cd
-        $ pwd
-        /home/user
-        ```
-    
-    - **`exit`**
-
-      - Used to exit the smallsh shell. Can be given an optional exit status code as an argument. If not provided, defaults to an exit status of `0`.
-
-        ```bash
-        $ exit
-        ~/dir$ echo $?
-        0
-        ~/dir$ ./smallsh
-        $ exit 1234
-        ~/dir$ echo $?
-        1234
-        ```
-
-  - Parameter expansion of environment variables:
-
-    - **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
-
-    - **`$?`**: Replaced by the exit status of the last foreground command.
-
-    - **`$?`**: Replaced by the process ID of the of the most recent background process.
-
-    - **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
+  - **`cd`**: Changes the current working directory to the specified directory. Without arguments, it defaults to the home directory.
 
       ```bash
-      $ echo "Smallsh PID: $$"
-      Smallsh PID: 1234
-      $ echo "Exit status of last foreground command: $?"
-      Exit status of last foreground command: 0
-      $ echo "Last background process PID: $!"
-      Last background process PID: 5678
-      $ echo "Home directory: ${HOME}"
-      Home directory: /home/user
+      $ pwd
+      /home/user/dir
+      $ cd /path/to/directory
+      $ cd ..
+      $ pwd
+      /path/to/directory
+      $ cd
+      $ pwd
+      /home/user
       ```
-
-  - Run a command in the background:
-
-    - To execute a command in the background, append `&` to a command. Smallsh will execute it in the background, allowing user to continue using the shell without waiting for the command to finish.
+  
+  - **`exit`**: Terminates the shell. Can be given an optional exit status code as an argument. If not provided, defaults to an exit status of `0`.
 
       ```bash
-      $ sleep 5 &
-      $ ls
-      file1.txt  file2.txt  file3.txt  smallsh
-      $ ls
-      Child process 3333 done. Exit status 0.
-      file1.txt  file2.txt  file3.txt  smallsh    
-      ```
-
-  - (Unfinished) Input/Output Redirection:
-    
-    - **`<`**: Redirects standard input to a file.
-
-    - **`>`**: Redirects standard output to a file, overwriting the file if it exists.
-    
-    - **`>>`**: Redirects standard output to a file, appending to the file if it exists.
-
-      ```bash
-      $ cat < input.txt
-      Hello, smallsh!
-      $ ls > output.txt
-      $ cat < output.txt
-      file1.txt  file2.txt  file3.txt  smallsh
-      $ echo "Append text" >> output.txt
-      $ cat < output.txt
-      file1.txt  file2.txt  file3.txt  smallshAppend text
-      ```
-
-  - (Unfinished) Custom signal handling
-    
-    - **`SIGTSTP`** (Ctrl-z)
-      - Normally would cause a process to be stopped immediately. This signal is ignored by smallsh. The assignment specifications stated that the smallsh process should not respond to it by setting its disposition to `SIG_IGN`.
-
-    - **`SIGINT`** (Ctrl-c)
-      - Normally would cause a process to exit immediately. This signal is ignored by smallsh except when waiting for input.
-      - If the user presses ctrl-c while smallsh is waiting for input, it will print a new prompt and wait for input again.
-
-        ```bash
-        $ ^C # does not show up when typed, only a visual representation
-        $ 
-        $ 
-        $ 
-        ```
-
-  - **FIX**: Odd or nonexistent prompt:
-
-    - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
-    - Use a temporary `PS1` variable:
-    
-      ```bash
+      $ exit
+      ~/dir$ echo $?
+      0
       ~/dir$ ./smallsh
-      \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] ls
-      file1.txt  file2.txt  file3.txt  smallsh
-      \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] exit
-      ~/dir$ PS1=">>> " ./smallsh
-      >>> ls
-      file1.txt  file2.txt  file3.txt  smallsh
-      >>> 
+      $ exit 1234
+      ~/dir$ echo $?
+      1234
       ```
+
+- External Commands:
+
+  - Enter any valid system command (e.g., `ls`, `echo`) to execute it. The shell will create a child process to run the command.
+
+- Run a command in the background:
+
+  - To execute a command in the background, append `&` to a command. The shell will execute the command in the background and return control to the prompt immediately.
+
+    ```bash
+    $ sleep 5 &
+    $ ls
+    file1.txt  file2.txt  file3.txt  smallsh
+    $ ls
+    Child process 3333 done. Exit status 0.
+    file1.txt  file2.txt  file3.txt  smallsh    
+    ```
+
+### Parameter expansion of environment variables:
+
+- **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
+
+- **`$?`**: Replaced by the exit status of the last foreground command.
+
+- **`$?`**: Replaced by the process ID of the of the most recent background process.
+
+- **`${param}`**: Replaced with the value of the corresponding environment variable named `parameter`.
+
+  ```bash
+  $ echo "Smallsh PID: $$"
+  Smallsh PID: 1234
+  $ echo "Exit status of last foreground command: $?"
+  Exit status of last foreground command: 0
+  $ echo "Last background process PID: $!"
+  Last background process PID: 5678
+  $ echo "Home directory: ${HOME}"
+  Home directory: /home/user
+  ```
+
+### (Unfinished) Input/Output Redirection:
+    
+- **`<`**: Redirects standard input to a file.
+
+- **`>`**: Redirects standard output to a file, overwriting the file if it exists.
+
+- **`>>`**: Redirects standard output to a file, appending to the file if it exists.
+
+  ```bash
+  $ cat < input.txt
+  Hello, smallsh!
+  $ ls > output.txt
+  $ cat < output.txt
+  file1.txt  file2.txt  file3.txt  smallsh
+  $ echo "Append text" >> output.txt
+  $ cat < output.txt
+  file1.txt  file2.txt  file3.txt  smallshAppend text
+  ```
+
+### (Unfinished) Custom signal handling
+    
+- **`SIGTSTP`** (Ctrl+z)
+  - Normally would cause a process to be stopped immediately. This signal is ignored by smallsh. The assignment specifications stated that the smallsh process should not respond to it by setting its disposition to `SIG_IGN`.
+
+- **`SIGINT`** (Ctrl+c)
+  - Normally would cause a process to exit immediately. This signal is ignored by smallsh except when waiting for input.
+  - If the user presses ctrl-c while smallsh is waiting for input, it will print a new prompt and wait for input again.
+
+    ```bash
+    $ ^C # does not show up when typed, only a visual representation
+    $ 
+    $ 
+    $ 
+    ```
+
+### Fix for prompt text (if nonexistent or a long line of characters):
+
+- Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
+- Use a temporary `PS1` variable:
+
+  ```bash
+  ~/dir$ ./smallsh
+  \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] ls
+  file1.txt  file2.txt  file3.txt  smallsh
+  \n\[\]\u\[\]@\[\]\H\[\]:\[\]\w\n\[\]\$\[\] exit
+  ~/dir$ PS1=">>> " ./smallsh
+  >>> ls
+  file1.txt  file2.txt  file3.txt  smallsh
+  >>> 
+  ```
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
