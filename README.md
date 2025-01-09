@@ -19,7 +19,7 @@
   <!-- Titles and Subtitles -->
   <h1 align="center">Custom Shell with Command Parsing and Process Handling</h1>
   <p align="center">
-    <b>A UNIX-like command line shell designed to operate like well-known shells such as bash</b>
+    <b>UNIX-like shell in C to support command parsing, child process execution, and custom implementations of cd and exit.</b>
   </p>
   <p align="center">
     Spring 2023 · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=344&termcode=ALL">CS 344 Operating Systems</a> · Oregon State University
