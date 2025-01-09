@@ -211,7 +211,7 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
     $ 
     ```
 
-### Fix for prompt text (if nonexistent or a long line of characters):
+### Fix for prompt text (if nonexistent or is a long line of format specifiers):
 
 - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
 - Use a temporary `PS1` variable:
@@ -232,21 +232,19 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
 <!-- Skills Applied -->
 ## Skills Applied
 
-  - C language and its libraries
+- Developed a custom UNIX-like shell using the C programming language.
 
-  - String manipulation and tokenization
+- Gained experience with parsing and tokenizing user input for command processing.
 
-  - Command-line interface development
+- Implemented parent and child process management using UNIX system calls.
 
-  - UNIX system calls for file I/O and child processes
+- Applied dynamic memory allocation techniques for managing runtime data structures.
 
-  - Error handling of called functions for crash protection
+- Practiced error handling to ensure robust execution of built-in and external commands.
 
-  - Dynamic memory management
+- Learned to work with process IDs and environment variables for parameter expansion.
 
-  - Managing parent and child processes
-  
-  - Shell scripting and makefile usage
+- Built a deeper knowledge of the C Standard Library and low-level programming concepts.
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
