@@ -80,6 +80,12 @@ This project is a UNIX-like command line shell written in the C programming lang
 
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
 
+## TODO: Work I want to do when I have time
+
+- I know the features I want to implement. I know the end goals but not all the steps it takes to get there.
+
+- I know what to do to get to the next step, but not to the end goal yet.
+
 <!-- Usage -->
 ## Usage
 
