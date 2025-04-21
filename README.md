@@ -34,7 +34,15 @@
   - [Project Description](#project-description)
   - [Technologies Used](#technologies-used)
   - [Features](#features)
+    - [Features in Progress & Future Work](#features-in-progress--future-work)
   - [Usage](#usage)
+    - [Compilation](#compilation)
+    - [Running the Shell](#running-the-shell)
+    - [Executing Commands](#executing-commands)
+    - [Parameter Expansion of Environment Variables](#parameter-expansion-of-environment-variables)
+    - [(Planned) Input/Output Redirection](#planned-inputoutput-redirection)
+    - [(Planned) Custom Signal Handling](#planned-custom-signal-handling)
+    - [Fix for Prompt Text](#fix-for-prompt-text)
   - [Skills Applied](#skills-applied)
   - [Contact](#contact)
   - [Acknowledgments](#acknowledgments)
@@ -70,21 +78,18 @@ This project is a UNIX-like command line shell written in the C programming lang
 
 - Enables background process execution with the `&` operator.
 
-- Expands parameters like `$$`, `$?`, `$!`, and `${param}` in user commands. [Mostly finished]
-
-- Planned input/output redirection using `<`, `>`, and `>>` operators. [Unfinished]
-
-- Planned for custom signal handling of `SIGINT` and `SIGTSTP`. [Unfinished]
-
 - Includes a workaround for handling advanced `PS1` environment variable format specifiers (see Usage section for details).
 
+<!-- Features in Progress & Future Work -->
+### Features in Progress & Future Work
+
+- Finalize parameter expansion to fully support `$$`, `$?`, `$!`, and `${param}` syntax in user commands. *(Partially implemented)*
+
+- Implement input and output redirection using `<`, `>`, and `>>` operators to enable file-based command I/O. *(Planned)*
+
+- Add custom handling for `SIGINT` and `SIGTSTP` signals to allow for custom process interruption. *(Planned)*
+
 <p align="right">(<a href="#readme-top">back to top</a>)</p>
-
-## TODO: Work I want to do when I have time
-
-- I know the features I want to implement. I know the end goals but not all the steps it takes to get there.
-
-- I know what to do to get to the next step, but not to the end goal yet.
 
 <!-- Usage -->
 ## Usage
@@ -161,7 +166,7 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
     file1.txt  file2.txt  file3.txt  smallsh    
     ```
 
-### Parameter expansion of environment variables:
+### Parameter Expansion of Environment Variables:
 
 - **`$$`**: Replaced by the process ID (PID) of the running smallsh program.
 
@@ -182,7 +187,7 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
   Home directory: /home/user
   ```
 
-### (Unfinished) Input/Output Redirection:
+### (Planned) Input/Output Redirection:
     
 - **`<`**: Redirects standard input to a file.
 
@@ -201,7 +206,7 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
   file1.txt  file2.txt  file3.txt  smallshAppend text
   ```
 
-### (Unfinished) Custom signal handling
+### (Planned) Custom Signal Handling:
     
 - **`SIGTSTP`** (Ctrl+z)
   - Normally would cause a process to be stopped immediately. This signal is ignored by smallsh. The assignment specifications stated that the smallsh process should not respond to it by setting its disposition to `SIG_IGN`.
@@ -217,8 +222,9 @@ To run the shell after compiling, start the shell by executing ```./smallsh``` a
     $ 
     ```
 
-### Fix for prompt text (if nonexistent or is a long line of format specifiers):
+### Fix for Prompt Text:
 
+- For when the shell prompt is nothing or a long line of format specifiers.
 - Alter the value of the `PS1` environment variable in the `.bashrc` file to something more simple (make a backup of your `.bashrc` file before editing).
 - Use a temporary `PS1` variable:
 
