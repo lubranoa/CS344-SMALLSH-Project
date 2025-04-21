@@ -22,7 +22,7 @@
     <b>UNIX-like shell in C to support command parsing, child process execution, and custom implementations of cd and exit.</b>
   </p>
   <p align="center">
-    Spring 2023 · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=344&termcode=ALL">CS 344 Operating Systems</a> · Oregon State University
+    Spring 2023 · <a href="https://ecampus.oregonstate.edu/soc/ecatalog/ecoursedetail.htm?subject=CS&coursenumber=374&termcode=all">CS 344 (now 374) Operating Systems I</a> · Oregon State University
   </p>
   <br />
 </div>
