@@ -6,7 +6,7 @@
   <!-- Title Section Links -->
   <p>
     <a href="https://www.linkedin.com/in/lubrano-alexander">
-      <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin" alt="linkedin link" />
+      <img src="https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge" alt="linkedin link" />
     </a>
     <a href="https://lubranoa.github.io">
       <img src="https://img.shields.io/badge/Personal_Site-47b51b?style=for-the-badge" alt="personal website link" />
